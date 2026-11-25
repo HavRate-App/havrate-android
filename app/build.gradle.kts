@@ -1,6 +1,18 @@
+import java.io.StringReader
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+}
+
+val keystorePropertiesText = providers.fileContents(
+    rootProject.layout.projectDirectory.file("keystore.properties")
+).asText.orNull
+val keystoreProperties = Properties().apply {
+    if (keystorePropertiesText != null) {
+        load(StringReader(keystorePropertiesText))
+    }
 }
 
 android {
@@ -19,8 +31,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        val storeFilePath = keystoreProperties.getProperty("storeFile")
+        if (!storeFilePath.isNullOrBlank()) {
+            create("release") {
+                storeFile = rootProject.file(storeFilePath)
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfigs.findByName("release")?.let {
+                signingConfig = it
+            }
             optimization {
                 enable = true
                 packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
