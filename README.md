@@ -1,5 +1,7 @@
 # 哈夫币折算器 (HavRate Android)
 
+**平台版本**：Android（当前仓库） ｜ [iOS / iPadOS / macOS (havrate-apple)](https://github.com/HavRate-App/havrate-apple)
+
 以下内容由Gemini撰写😼
 
 一款基于 **Kotlin + Jetpack Compose + Material 3** 开发的 Android 离线工具应用，用于快速完成哈夫币与人民币金额折算、账号资产配置记录以及一键生成结构化交易备注。
@@ -108,3 +110,9 @@ cd havrate-android
 
 - 本应用为纯本地离线工具，不收集、不上传任何用户数据。
 - 内置皮肤列表与计价选项仅作辅助记录参考，可根据实际行情自定义单价与比例。
+
+---
+
+## 开源协议
+
+本项目基于 [MIT License](LICENSE) 开源。
